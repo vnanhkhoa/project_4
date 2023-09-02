@@ -12,7 +12,9 @@
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_locationListFragment"
-            app:destination="@id/locationListFragment" />
+            app:destination="@id/locationListFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/nav_graph" />
     </fragment>
     <fragment
         android:id="@+id/locationListFragment"

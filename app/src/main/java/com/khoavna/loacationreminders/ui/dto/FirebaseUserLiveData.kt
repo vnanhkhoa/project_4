@@ -1,4 +1,4 @@
-package com.khoavna.loacationreminders.ui.model
+package com.khoavna.loacationreminders.ui.dto
 
 import androidx.lifecycle.LiveData
 import com.google.firebase.auth.FirebaseAuth

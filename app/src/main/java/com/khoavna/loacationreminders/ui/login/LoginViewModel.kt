@@ -3,7 +3,7 @@ package com.khoavna.loacationreminders.ui.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
-import com.khoavna.loacationreminders.ui.model.FirebaseUserLiveData
+import com.khoavna.loacationreminders.ui.dto.FirebaseUserLiveData
 
 class LoginViewModel : ViewModel() {
 
