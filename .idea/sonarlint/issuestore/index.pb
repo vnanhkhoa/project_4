@@ -38,8 +38,6 @@ Rapp/src/main/java/com/khoavna/loacationreminders/data/database/entites/Location
 Rapp/src/main/java/com/khoavna/loacationreminders/data/database/daos/LocationDao.kt,8/2/82819f59cc02a44b538846b5d0c28a51884c11e8
 z
 Japp/src/main/java/com/khoavna/loacationreminders/ui/login/LoginFragment.kt,4/3/430fa60be8c9399bcf1a363271c0d3d30039c2e1
-{
-Kapp/src/main/java/com/khoavna/loacationreminders/ui/login/LoginViewModel.kt,e/1/e14d31726f20a1af5f116a6853174d9bd683d140
 s
 Capp/src/main/java/com/khoavna/loacationreminders/ui/MainActivity.kt,d/c/dc539088aa0a080421277a84d6dc5f0cc7a410bc
 q
@@ -74,3 +72,15 @@ p
 Vapp/src/main/java/com/khoavna/loacationreminders/ui/locations/LocationListViewModel.kt,d/3/d30973bfc0e381482d9acb4c999b6472fbbe115c
 Ö
 Uapp/src/main/java/com/khoavna/loacationreminders/ui/locations/LocationListFragment.kt,a/c/ac341671cc6d97a890197f913b8aecbe792d1fd6
+t
+Dapp/src/main/java/com/khoavna/loacationreminders/ui/MainViewModel.kt,c/c/cc8dd64ee49058ac8189ab90113613a8447152ba
+|
+Lapp/src/main/java/com/khoavna/loacationreminders/ui/dto/LocationSelectDto.kt,a/1/a1d1e39c609a8649f0a356f51f098357e1483946
+å
+\app/src/main/java/com/khoavna/loacationreminders/ui/locationdetail/LocationDetailFragment.kt,f/2/f2b1897c774f7b297dbe902bb1dca4e7d9321be0
+ç
+]app/src/main/java/com/khoavna/loacationreminders/ui/locationdetail/LocationDetailViewModel.kt,9/2/921d405d6491d39808783d2e436290b8f48caa91
+v
+Fapp/src/main/java/com/khoavna/loacationreminders/ui/map/MapFragment.kt,7/9/79abbca8735a75c8d8f25390daafe55e5f0d4711
+w
+Gapp/src/main/java/com/khoavna/loacationreminders/ui/map/MapViewModel.kt,e/8/e83fc3898c2599ce2d3e2ee7aa5f2387af6d08de

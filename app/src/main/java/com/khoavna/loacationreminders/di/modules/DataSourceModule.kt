@@ -7,5 +7,7 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val appDataSource = module {
+    includes(daoModule)
+
     singleOf(::LocationDataSourceImpl) { bind<LocationDataSource>() }
 }

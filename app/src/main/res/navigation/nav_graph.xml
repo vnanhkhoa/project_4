@@ -3,22 +3,51 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/locationListFragment">
 
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.khoavna.loacationreminders.ui.login.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login">
-        <action
-            android:id="@+id/action_loginFragment_to_locationListFragment"
-            app:destination="@id/locationListFragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/nav_graph" />
-    </fragment>
+        tools:layout="@layout/fragment_login" />
+
     <fragment
         android:id="@+id/locationListFragment"
         android:name="com.khoavna.loacationreminders.ui.locations.LocationListFragment"
-        android:label="fragment_location_list"
-        tools:layout="@layout/fragment_location_list" />
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_location_list">
+        <action
+            android:id="@+id/action_locationListFragment_to_locationDetailFragment"
+            app:destination="@id/locationDetailFragment" />
+        <action
+            android:id="@+id/action_locationListFragment_to_loginFragment2"
+            app:destination="@id/loginFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/locationDetailFragment"
+        android:name="com.khoavna.loacationreminders.ui.locationdetail.LocationDetailFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_location_detail">
+        <argument
+            android:name="location"
+            android:defaultValue="@null"
+            app:argType="com.khoavna.loacationreminders.data.database.entites.Location"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_locationDetailFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.khoavna.loacationreminders.ui.map.MapFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_map">
+        <argument
+            android:name="locationSelect"
+            android:defaultValue="@null"
+            app:argType="com.khoavna.loacationreminders.ui.dto.LocationSelectDto"
+            app:nullable="true" />
+    </fragment>
 </navigation>

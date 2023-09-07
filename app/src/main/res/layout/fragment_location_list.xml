@@ -33,18 +33,7 @@
         android:id="@+id/group_no_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="img_no_data" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/img_no_data"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_no_data"
-        app:layout_constraintBottom_toTopOf="@id/tv_no_data"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:constraint_referenced_ids="tv_no_data,img_no_data" />
 
     <TextView
         android:id="@+id/tv_no_data"
@@ -59,5 +48,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/img_no_data" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_no_data"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_no_data"
+        app:layout_constraintBottom_toTopOf="@id/tv_no_data"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

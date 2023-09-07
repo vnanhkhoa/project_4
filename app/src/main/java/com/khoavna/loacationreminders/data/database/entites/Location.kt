@@ -9,9 +9,10 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Location(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Int = 0,
+    val title: String,
     val description: String = "",
-    val location: String = "",
-    val x: Double = 0.0,
-    val y: Double = 0.0,
+    val locationName: String = "",
+    val latitude: Double = 0.0,
+    val longitude: Double = 0.0,
 ) : Parcelable

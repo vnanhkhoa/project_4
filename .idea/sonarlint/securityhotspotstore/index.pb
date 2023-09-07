@@ -1,8 +1,6 @@
 
 @
 local.properties,0/7/0712df971a99ac4d2fccb8e0fb19f377f3374cca
-{
-Kapp/src/main/java/com/khoavna/loacationreminders/ui/login/LoginViewModel.kt,e/1/e14d31726f20a1af5f116a6853174d9bd683d140
 X
 (gradle/wrapper/gradle-wrapper.properties,f/b/fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
 A
@@ -74,3 +72,15 @@ p
 Vapp/src/main/java/com/khoavna/loacationreminders/ui/locations/LocationListViewModel.kt,d/3/d30973bfc0e381482d9acb4c999b6472fbbe115c
 Ö
 Uapp/src/main/java/com/khoavna/loacationreminders/ui/locations/LocationListFragment.kt,a/c/ac341671cc6d97a890197f913b8aecbe792d1fd6
+t
+Dapp/src/main/java/com/khoavna/loacationreminders/ui/MainViewModel.kt,c/c/cc8dd64ee49058ac8189ab90113613a8447152ba
+|
+Lapp/src/main/java/com/khoavna/loacationreminders/ui/dto/LocationSelectDto.kt,a/1/a1d1e39c609a8649f0a356f51f098357e1483946
+ç
+]app/src/main/java/com/khoavna/loacationreminders/ui/locationdetail/LocationDetailViewModel.kt,9/2/921d405d6491d39808783d2e436290b8f48caa91
+å
+\app/src/main/java/com/khoavna/loacationreminders/ui/locationdetail/LocationDetailFragment.kt,f/2/f2b1897c774f7b297dbe902bb1dca4e7d9321be0
+v
+Fapp/src/main/java/com/khoavna/loacationreminders/ui/map/MapFragment.kt,7/9/79abbca8735a75c8d8f25390daafe55e5f0d4711
+w
+Gapp/src/main/java/com/khoavna/loacationreminders/ui/map/MapViewModel.kt,e/8/e83fc3898c2599ce2d3e2ee7aa5f2387af6d08de

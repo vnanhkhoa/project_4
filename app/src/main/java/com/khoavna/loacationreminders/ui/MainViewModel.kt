@@ -1,12 +1,12 @@
-package com.khoavna.loacationreminders.ui.login
+package com.khoavna.loacationreminders.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import com.khoavna.loacationreminders.ui.dto.FirebaseUserLiveData
 
-class LoginViewModel : ViewModel() {
+class MainViewModel : ViewModel() {
 
     private val _firebaseUser = FirebaseUserLiveData()
-    val isLogin: LiveData<Boolean> = _firebaseUser.map { it == null }
+    val isLogin: LiveData<Boolean> = _firebaseUser.map { it != null }
 }

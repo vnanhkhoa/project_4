@@ -1,13 +1,21 @@
 package com.khoavna.loacationreminders.di
 
-import com.khoavna.loacationreminders.di.modules.appDataSource
-import com.khoavna.loacationreminders.di.modules.appRepository
-import com.khoavna.loacationreminders.di.modules.daoModule
 import com.khoavna.loacationreminders.di.modules.useCaseModule
+import com.khoavna.loacationreminders.ui.locationdetail.LocationDetailViewModel
+import com.khoavna.loacationreminders.ui.locations.LocationListViewModel
+import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
-val appModule = module {
-    includes(
-        daoModule, appDataSource, appRepository, useCaseModule
-    )
+val locationListModule = module {
+    includes(useCaseModule)
+    viewModelOf(::LocationListViewModel)
 }
+
+val locationDetailModule = module {
+    includes(useCaseModule)
+    viewModelOf(::LocationDetailViewModel)
+}
+
+val appModule = listOf(
+    locationListModule, locationDetailModule
+)
