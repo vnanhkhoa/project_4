@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 interface LocationDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(location: Location)
+    suspend fun insert(location: Location): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(vararg location: Location)

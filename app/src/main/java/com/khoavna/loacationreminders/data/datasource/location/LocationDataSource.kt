@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface LocationDataSource {
 
-    suspend fun create(location: Location)
+    suspend fun create(location: Location): Long
 
     suspend fun create(vararg location: Location)
 

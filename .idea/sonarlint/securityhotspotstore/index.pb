@@ -84,3 +84,11 @@ v
 Fapp/src/main/java/com/khoavna/loacationreminders/ui/map/MapFragment.kt,7/9/79abbca8735a75c8d8f25390daafe55e5f0d4711
 w
 Gapp/src/main/java/com/khoavna/loacationreminders/ui/map/MapViewModel.kt,e/8/e83fc3898c2599ce2d3e2ee7aa5f2387af6d08de
+ˆ
+Xapp/src/main/java/com/khoavna/loacationreminders/ui/locations/adapter/LocationAdapter.kt,4/b/4bf2fe951696d86cf6ad2c7747aa6289d3fa5da2
+}
+Mapp/src/main/java/com/khoavna/loacationreminders/receiver/LocationReceiver.kt,9/0/9019193e7418dc95cf226eba166d0b53195ef2c8
+s
+Capp/src/main/java/com/khoavna/loacationreminders/utils/Constants.kt,1/e/1e8ffa44de58d8189a229489b3b2f4af992d19cf
+x
+Happ/src/main/java/com/khoavna/loacationreminders/utils/PermissionUtil.kt,c/2/c229eef36e3bf8fecac5b105815d46f00dc246a5

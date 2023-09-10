@@ -57,12 +57,12 @@ dependencies {
     ksp("androidx.room:room-compiler:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
 
-    val navigationVersion = "2.7.1"
+    val navigationVersion = "2.7.2"
     implementation("androidx.navigation:navigation-fragment-ktx:$navigationVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navigationVersion")
     implementation("androidx.navigation:navigation-dynamic-features-fragment:$navigationVersion")
 
-    val lifecycleVersion = "2.6.1"
+    val lifecycleVersion = "2.6.2"
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
 
@@ -79,6 +79,9 @@ dependencies {
     val playServicesVersion = "21.0.1"
     implementation("com.google.android.gms:play-services-location:$playServicesVersion")
     implementation("com.google.android.gms:play-services-maps:18.1.0")
+
+    val workVersion = "2.8.1"
+    implementation("androidx.work:work-runtime-ktx:$workVersion")
 
     implementation("com.google.firebase:firebase-auth-ktx:22.1.1")
     implementation("com.firebaseui:firebase-ui-auth:8.0.2")

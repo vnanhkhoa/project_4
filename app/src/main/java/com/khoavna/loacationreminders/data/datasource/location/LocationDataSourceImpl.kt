@@ -8,12 +8,10 @@ class LocationDataSourceImpl(
     private val locationDao: LocationDao
 ) : LocationDataSource {
 
-    override suspend fun create(location: Location) {
-        locationDao.insert(location)
-    }
+    override suspend fun create(location: Location) = locationDao.insert(location)
 
-    override suspend fun create(vararg locations: Location) {
-        locationDao.insertAll(*locations)
+    override suspend fun create(vararg location: Location) {
+        locationDao.insertAll(*location)
     }
 
     override fun getLocations(): Flow<List<Location>> = locationDao.getAll()

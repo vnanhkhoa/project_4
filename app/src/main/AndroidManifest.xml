@@ -30,6 +30,15 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${GOOGLE_MAPS_API_KEY}" />
-    </application>
 
+        <receiver
+            android:name=".receiver.LocationReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.DUMP">
+            <intent-filter>
+                <action android:name="com.khoavna.locationreminders.reminders" />
+            </intent-filter>
+        </receiver>
+    </application>
 </manifest>

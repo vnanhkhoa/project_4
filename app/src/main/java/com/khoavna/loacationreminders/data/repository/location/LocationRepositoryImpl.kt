@@ -4,6 +4,7 @@ import com.khoavna.loacationreminders.data.database.entites.Location
 import com.khoavna.loacationreminders.data.datasource.location.LocationDataSource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
@@ -12,7 +13,8 @@ class LocationRepositoryImpl(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : LocationRepository {
     override suspend fun add(location: Location) = withContext(dispatcher) {
-        locationDataSource.create(location = location)
+        val id = async { locationDataSource.create(location = location) }
+        return@withContext id.await()
     }
 
     override suspend fun add(vararg location: Location) = withContext(dispatcher) {

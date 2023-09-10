@@ -5,9 +5,7 @@ import com.khoavna.loacationreminders.data.repository.location.LocationRepositor
 import kotlinx.coroutines.flow.Flow
 
 class LocationUseCaseImpl(private val locationRepository: LocationRepository) : LocationUseCase {
-    override suspend fun create(location: Location) {
-        locationRepository.add(location)
-    }
+    override suspend fun create(location: Location) = locationRepository.add(location)
 
     override suspend fun create(vararg location: Location) {
         locationRepository.add(*location)

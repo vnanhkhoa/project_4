@@ -1,6 +1,5 @@
 package com.khoavna.loacationreminders.ui.map
 
-import android.Manifest
 import android.location.Address
 import android.location.Geocoder
 import android.os.Build
@@ -92,7 +91,7 @@ class MapFragment : Fragment(), MenuProvider {
     }
 
     private fun updateLocation() {
-        if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) || checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)) {
+        if (!checkPermission()) {
             return
         }
         googleMap.isMyLocationEnabled = true

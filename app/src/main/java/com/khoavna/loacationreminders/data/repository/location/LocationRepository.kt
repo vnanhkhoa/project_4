@@ -4,7 +4,7 @@ import com.khoavna.loacationreminders.data.database.entites.Location
 import kotlinx.coroutines.flow.Flow
 
 interface LocationRepository {
-    suspend fun add(location: Location)
+    suspend fun add(location: Location): Long
 
     suspend fun add(vararg location: Location)
 
