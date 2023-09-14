@@ -7,11 +7,8 @@ import kotlinx.coroutines.flow.Flow
 class LocationUseCaseImpl(private val locationRepository: LocationRepository) : LocationUseCase {
     override suspend fun create(location: Location) = locationRepository.add(location)
 
-    override suspend fun create(vararg location: Location) {
-        locationRepository.add(*location)
-    }
-
     override fun getLocations(): Flow<List<Location>> = locationRepository.getLocations()
+    override suspend fun getLocation(id: Int): Location = locationRepository.getLocation(id)
 
     override suspend fun update(location: Location) {
         locationRepository.update(location)

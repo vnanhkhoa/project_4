@@ -17,11 +17,11 @@ class LocationRepositoryImpl(
         return@withContext id.await()
     }
 
-    override suspend fun add(vararg location: Location) = withContext(dispatcher) {
-        locationDataSource.create(location = location)
-    }
-
     override fun getLocations(): Flow<List<Location>> = locationDataSource.getLocations()
+    override suspend fun getLocation(id: Int): Location = withContext(dispatcher) {
+        val location = async { locationDataSource.getLocation(id = id) }
+        return@withContext location.await()
+    }
 
     override suspend fun update(location: Location) = withContext(dispatcher) {
         locationDataSource.update(location = location)

@@ -27,6 +27,7 @@ class LocationDetailViewModel(
             _location.value?.let {
                 if (isUpdate) {
                     locationUseCase.update(it)
+                    callBack.invoke(it)
                     return@let
                 }
                 val id = locationUseCase.create(it)

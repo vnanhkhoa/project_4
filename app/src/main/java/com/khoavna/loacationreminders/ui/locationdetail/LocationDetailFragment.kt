@@ -124,7 +124,6 @@ class LocationDetailFragment : Fragment() {
 
             }
         }
-
     }
 
     private fun createGeofencingRequest(geofence: Geofence) =

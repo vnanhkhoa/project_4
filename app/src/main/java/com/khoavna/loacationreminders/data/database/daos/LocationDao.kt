@@ -15,11 +15,11 @@ interface LocationDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(location: Location): Long
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(vararg location: Location)
-
     @Query("Select * from `location`")
     fun getAll(): Flow<List<Location>>
+
+    @Query("Select * from `location` where `id` = :id")
+    suspend fun getLocation(id: Int): Location
 
     @Update
     suspend fun update(location: Location)

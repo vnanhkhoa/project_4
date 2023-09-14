@@ -6,7 +6,9 @@ import com.khoavna.loacationreminders.di.modules.useCaseModule
 import com.khoavna.loacationreminders.ui.locationdetail.LocationDetailViewModel
 import com.khoavna.loacationreminders.ui.locations.LocationListViewModel
 import com.khoavna.loacationreminders.utils.Constants.PERMISSION_NAME
+import com.khoavna.loacationreminders.worker.LocationWorker
 import org.koin.androidx.viewmodel.dsl.viewModelOf
+import org.koin.androidx.workmanager.dsl.workerOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -27,6 +29,10 @@ val permissionModule = module {
             Manifest.permission.ACCESS_COARSE_LOCATION,
         )
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permissions += Manifest.permission.POST_NOTIFICATIONS
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             permissions += Manifest.permission.ACCESS_BACKGROUND_LOCATION
         }
@@ -36,7 +42,12 @@ val permissionModule = module {
     single(named(PERMISSION_NAME)) { handlePermission() }
 }
 
+val workerModule = module {
+    includes(useCaseModule)
+    workerOf(::LocationWorker)
+}
+
 
 val appModule = listOf(
-    locationListModule, locationDetailModule, permissionModule
+    locationListModule, locationDetailModule, permissionModule, workerModule
 )
