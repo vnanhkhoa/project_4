@@ -18,11 +18,6 @@ class MapViewModel : ViewModel() {
     private val _styleMap = MutableLiveData(GoogleMap.MAP_TYPE_NORMAL)
     val styleMap: LiveData<Int> = _styleMap
 
-    private fun removeMarker() {
-        marker?.remove()
-        marker = null
-    }
-
     fun updateMarkerAndPointOfInterest(marker: Marker, pointOfInterest: PointOfInterest) {
         removeMarker()
         marker.showInfoWindow()
@@ -40,6 +35,11 @@ class MapViewModel : ViewModel() {
             )
         }
 
+    }
+
+    private fun removeMarker() {
+        marker?.remove()
+        marker = null
     }
 
     fun updateMapStyle(style: Int): Boolean {

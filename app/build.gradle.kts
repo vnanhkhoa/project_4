@@ -44,6 +44,10 @@ android {
         viewBinding = true
         buildConfig = true
     }
+
+    testOptions.unitTests {
+        isReturnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -90,15 +94,23 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("org.mockito:mockito-android:5.5.0")
     testImplementation("junit:junit:4.13.2")
-    testImplementation("org.mockito:mockito-core:5.5.0")
+    testImplementation("org.mockito:mockito-inline:5.5.0")
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0")
     testImplementation("androidx.room:room-testing:$roomVersion")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion")
+    testImplementation("android.arch.core:core-testing:1.1.1")
+    debugImplementation("androidx.fragment:fragment-testing:1.6.1")
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
+    androidTestImplementation("androidx.test.espresso.idling:idling-concurrent:3.5.1")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("android.arch.core:core-testing:1.1.1")
+    androidTestImplementation("org.mockito:mockito-core:5.5.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion")
-
+    androidTestImplementation("io.insert-koin:koin-test:3.5.0")
 }
 

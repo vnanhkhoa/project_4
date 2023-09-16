@@ -21,29 +21,23 @@ class LocationDetailViewModel(
     private val _location: MutableStateFlow<Location?> = MutableStateFlow(null)
     private var isUpdate = false
 
-    fun saveLocation(callBack: (location: Location) -> Unit) {
+    fun saveLocation(callBack: (geofence: Geofence) -> Unit) {
         viewModelScope.launch {
             updateLocation()
             _location.value?.let {
                 if (isUpdate) {
                     locationUseCase.update(it)
-                    callBack.invoke(it)
+                    callBack.invoke(createGeofence(it))
                     return@let
                 }
                 val id = locationUseCase.create(it)
                 it.copy(id = id.toInt()).let { result ->
                     _location.value = result
-                    callBack.invoke(it)
+                    callBack.invoke(createGeofence(it))
                 }
 
             }
         }
-    }
-
-    fun createGeofence(location: Location) = location.run {
-        Geofence.Builder().setExpirationDuration(Geofence.NEVER_EXPIRE)
-            .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER).setRequestId(id.toString())
-            .setCircularRegion(latitude, longitude, 150f).build()
     }
 
     fun deleteLocation() {
@@ -60,6 +54,12 @@ class LocationDetailViewModel(
 
     fun setUpdate(isUpdate: Boolean) {
         this.isUpdate = isUpdate
+    }
+
+    private fun createGeofence(location: Location) = location.run {
+        Geofence.Builder().setExpirationDuration(Geofence.NEVER_EXPIRE)
+            .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER).setRequestId(id.toString())
+            .setCircularRegion(latitude, longitude, 150f).build()
     }
 
     private fun updateLocation() {

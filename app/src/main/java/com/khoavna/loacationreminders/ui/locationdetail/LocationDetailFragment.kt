@@ -1,5 +1,6 @@
 package com.khoavna.loacationreminders.ui.locationdetail
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Intent
 import android.os.Bundle
@@ -8,9 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.BundleCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.gms.location.Geofence
@@ -20,8 +19,6 @@ import com.khoavna.loacationreminders.databinding.FragmentLocationDetailBinding
 import com.khoavna.loacationreminders.receiver.LocationReceiver
 import com.khoavna.loacationreminders.ui.dto.LocationSelectDto
 import com.khoavna.loacationreminders.utils.Constants
-import com.khoavna.loacationreminders.utils.PermissionUtil.checkPermission
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LocationDetailFragment : Fragment() {
@@ -97,31 +94,24 @@ class LocationDetailFragment : Fragment() {
         }
     }
 
+    @SuppressLint("MissingPermission")
     private fun addLocationReminder() {
-        lifecycleScope.launch {
-            viewModel.apply {
-                if (!checkPermission()) return@apply
-                saveLocation {
-                    val geofence = createGeofence(it)
-                    val request = createGeofencingRequest(geofence = geofence)
-                    binding.viewLoading.loadingScreen.isVisible = true
-                    geofenceClient.addGeofences(request, intentLocation).run {
-                        addOnSuccessListener {
-                            binding.viewLoading.loadingScreen.isVisible = false
-                            Toast.makeText(requireContext(), "Save Success", Toast.LENGTH_SHORT)
-                                .show()
-                            findNavController().popBackStack()
-                        }
-                        addOnFailureListener {
-                            deleteLocation()
-                            binding.viewLoading.loadingScreen.isVisible = false
-                            Toast.makeText(
-                                requireContext(), "Add location reminder error", Toast.LENGTH_SHORT
-                            ).show()
-                        }
+        viewModel.apply {
+            saveLocation {
+                val request = createGeofencingRequest(geofence = it)
+                geofenceClient.addGeofences(request, intentLocation).run {
+                    addOnSuccessListener {
+                        Toast.makeText(requireContext(), "Save Success", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                    addOnFailureListener {
+                        deleteLocation()
+                        Toast.makeText(
+                            requireContext(), "Add location reminder error", Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
-
+                findNavController().popBackStack()
             }
         }
     }
