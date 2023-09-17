@@ -6,9 +6,7 @@ import com.udacity.project4.di.modules.useCaseModule
 import com.udacity.project4.ui.locationdetail.LocationDetailViewModel
 import com.udacity.project4.ui.locations.LocationListViewModel
 import com.udacity.project4.utils.Constants.PERMISSION_NAME
-import com.udacity.project4.worker.LocationWorker
 import org.koin.androidx.viewmodel.dsl.viewModelOf
-import org.koin.androidx.workmanager.dsl.workerOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -42,12 +40,7 @@ val permissionModule = module {
     single(named(PERMISSION_NAME)) { handlePermission() }
 }
 
-val workerModule = module {
-    includes(useCaseModule)
-    workerOf(::LocationWorker)
-}
-
 
 val appModule = listOf(
-    locationListModule, locationDetailModule, permissionModule, workerModule
+    locationListModule, locationDetailModule, permissionModule
 )
