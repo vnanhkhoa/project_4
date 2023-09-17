@@ -7,6 +7,7 @@ import androidx.test.filters.SmallTest
 import com.udacity.project4.data.database.AppDatabase
 import com.udacity.project4.data.database.entites.Location
 import com.udacity.project4.data.datasource.location.LocationDataSourceImpl
+import com.udacity.project4.data.repository.dto.Result
 import com.udacity.project4.data.repository.location.LocationRepositoryImpl
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
@@ -104,7 +105,8 @@ class LocationUseCaseImplTest {
         @Test
         fun test() = runTest(UnconfinedTestDispatcher()) {
 
-            val actual = locationUseCase.getLocation(location.id)
+            val result = locationUseCase.getLocation(location.id) as Result.Success
+            val actual = result.data
 
             MatcherAssert.assertThat(actual.id, CoreMatchers.`is`(location.id))
             MatcherAssert.assertThat(actual.title, CoreMatchers.`is`(location.title))
