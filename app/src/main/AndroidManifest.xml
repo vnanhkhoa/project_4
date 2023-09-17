@@ -37,7 +37,7 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.khoavna.locationreminders.reminders" />
+                <action android:name="com.udacity.project4.reminders" />
             </intent-filter>
         </receiver>
     </application>

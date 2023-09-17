@@ -10,11 +10,11 @@ plugins {
 }
 
 android {
-    namespace = "com.khoavna.loacationreminders"
+    namespace = "com.udacity.project4"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.khoavna.loacationreminders"
+        applicationId = "com.udacity.project4"
         minSdk = 28
         targetSdk = 34
         versionCode = 1
