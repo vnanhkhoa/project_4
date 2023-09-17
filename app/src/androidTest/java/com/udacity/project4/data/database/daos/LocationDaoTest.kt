@@ -7,7 +7,6 @@ import androidx.test.filters.SmallTest
 import com.udacity.project4.data.database.AppDatabase
 import com.udacity.project4.data.database.entites.Location
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.async
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.CoreMatchers.`is`
@@ -53,12 +52,11 @@ class LocationDaoTest {
 
         @Test
         fun test() = runTest {
-            val id = async { locationDao.insert(location) }
+            locationDao.insert(location)
 
-            val expected = location.id
-            val actual = id.await().toInt()
+            val actual = locationDao.getLocation(location.id)
 
-            assertThat(actual, `is`(expected))
+            assertThat(actual, notNullValue())
 
         }
     }

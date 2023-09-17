@@ -15,7 +15,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
 import com.udacity.project4.R
 import com.udacity.project4.databinding.FragmentLocationListBinding
 import com.udacity.project4.ui.locations.adapter.LocationAdapter
@@ -47,11 +46,8 @@ class LocationListFragment : Fragment(), MenuProvider {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        if (FirebaseAuth.getInstance().currentUser == null) return
-
-        menuHost.addMenuProvider(this, viewLifecycleOwner)
-
+        viewModel.getLocation()
+        viewModel.isInit = true
         viewModel.locations.observe(viewLifecycleOwner) {
             binding.groupNoData.isVisible = it.isEmpty()
             binding.rvListLocation.isVisible = it.isNotEmpty()
@@ -85,6 +81,7 @@ class LocationListFragment : Fragment(), MenuProvider {
 
     override fun onResume() {
         super.onResume()
+        menuHost.addMenuProvider(this, viewLifecycleOwner)
         viewModel.getLocation()
     }
 

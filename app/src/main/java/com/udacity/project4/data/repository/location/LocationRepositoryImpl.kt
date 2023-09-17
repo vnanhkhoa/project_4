@@ -5,7 +5,6 @@ import com.udacity.project4.data.datasource.location.LocationDataSource
 import com.udacity.project4.data.repository.dto.Result
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 
 class LocationRepositoryImpl(
@@ -13,8 +12,7 @@ class LocationRepositoryImpl(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : LocationRepository {
     override suspend fun add(location: Location) = withContext(dispatcher) {
-        val id = async { locationDataSource.create(location = location) }
-        return@withContext id.await()
+        locationDataSource.create(location = location)
     }
 
     override suspend fun getLocations(): Result<List<Location>> = withContext(dispatcher) {

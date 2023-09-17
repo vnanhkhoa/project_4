@@ -28,7 +28,6 @@ class MapViewModel : ViewModel() {
                 latitude = it.latLng.latitude
             )
         }
-
     }
 
     private fun removeMarker() {

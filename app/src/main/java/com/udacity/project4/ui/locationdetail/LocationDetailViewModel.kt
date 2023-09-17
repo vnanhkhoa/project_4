@@ -7,6 +7,7 @@ import com.google.android.gms.location.Geofence
 import com.udacity.project4.data.database.entites.Location
 import com.udacity.project4.domain.location.LocationUseCase
 import com.udacity.project4.ui.dto.LocationSelectDto
+import com.udacity.project4.utils.SingleLiveEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -19,23 +20,20 @@ class LocationDetailViewModel(
     val description = MutableLiveData<String>()
     val locationDto = MutableLiveData<LocationSelectDto>()
     private val _location: MutableStateFlow<Location?> = MutableStateFlow(null)
-    private var isUpdate = false
+    val showToast: SingleLiveEvent<String> = SingleLiveEvent()
+    val showLoading: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
     fun saveLocation(callBack: (geofence: Geofence) -> Unit) {
         viewModelScope.launch {
             updateLocation()
             _location.value?.let {
-                if (isUpdate) {
-                    locationUseCase.update(it)
-                    callBack.invoke(createGeofence(it))
-                    return@let
-                }
-                val id = locationUseCase.create(it)
-                it.copy(id = id.toInt()).let { result ->
+                locationUseCase.create(it)
+                it.copy(id = it.id).let { result ->
                     _location.value = result
+                    showLoading.value = false
+                    showToast.value = "Save location success"
                     callBack.invoke(createGeofence(it))
                 }
-
             }
         }
     }
@@ -50,10 +48,6 @@ class LocationDetailViewModel(
 
     fun setLocation(location: Location) {
         _location.value = location
-    }
-
-    fun setUpdate(isUpdate: Boolean) {
-        this.isUpdate = isUpdate
     }
 
     private fun createGeofence(location: Location) = location.run {

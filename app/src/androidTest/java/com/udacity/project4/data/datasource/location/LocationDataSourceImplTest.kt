@@ -7,8 +7,6 @@ import androidx.test.filters.SmallTest
 import com.udacity.project4.data.database.AppDatabase
 import com.udacity.project4.data.database.entites.Location
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.CoreMatchers
@@ -53,12 +51,11 @@ class LocationDataSourceImplTest {
 
         @Test
         fun test() = runTest {
-            val id = async { locationDataSource.create(location) }
+            locationDataSource.create(location)
 
-            val expected = location.id
-            val actual = id.await().toInt()
+            val actual = locationDataSource.getLocation(location.id)
 
-            MatcherAssert.assertThat(actual, CoreMatchers.`is`(expected))
+            MatcherAssert.assertThat(actual, CoreMatchers.notNullValue())
 
         }
     }

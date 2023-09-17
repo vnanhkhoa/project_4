@@ -20,7 +20,13 @@ class LocationListViewModel(
     val showSnackBar: SingleLiveEvent<String> = SingleLiveEvent()
     val showLoading: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
+    var isInit = false
+
     fun getLocation() {
+        if (isInit) {
+            isInit = false
+            return
+        }
         viewModelScope.launch {
             showLoading.value = true
             val result = locationUseCase.getLocations()

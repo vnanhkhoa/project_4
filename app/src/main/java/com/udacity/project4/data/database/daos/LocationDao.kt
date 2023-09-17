@@ -12,7 +12,7 @@ import com.udacity.project4.data.database.entites.Location
 interface LocationDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(location: Location): Long
+    suspend fun insert(location: Location)
 
     @Query("Select * from `location`")
     suspend fun getAll(): List<Location>

@@ -10,7 +10,6 @@ import com.udacity.project4.data.datasource.location.LocationDataSourceImpl
 import com.udacity.project4.data.repository.dto.Result
 import com.udacity.project4.data.repository.location.LocationRepositoryImpl
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.async
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.CoreMatchers
@@ -56,12 +55,11 @@ class LocationUseCaseImplTest {
 
         @Test
         fun test() = runTest {
-            val id = async { locationUseCase.create(location) }
+            locationUseCase.create(location)
 
-            val expected = location.id
-            val actual = id.await().toInt()
+            val actual = locationUseCase.getLocation(location.id)
 
-            MatcherAssert.assertThat(actual, CoreMatchers.`is`(expected))
+            MatcherAssert.assertThat(actual, CoreMatchers.notNullValue())
 
         }
     }
