@@ -7,7 +7,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.udacity.project4.data.database.entites.Location
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface LocationDao {
@@ -16,7 +15,7 @@ interface LocationDao {
     suspend fun insert(location: Location): Long
 
     @Query("Select * from `location`")
-    fun getAll(): Flow<List<Location>>
+    suspend fun getAll(): List<Location>
 
     @Query("Select * from `location` where `id` = :id")
     suspend fun getLocation(id: Int): Location

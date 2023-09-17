@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.auth.AuthUI
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.udacity.project4.R
 import com.udacity.project4.databinding.FragmentLocationListBinding
@@ -71,8 +72,6 @@ class LocationListFragment : Fragment(), MenuProvider {
 
         if (!checkPermission()) {
             activityResultLauncher.launch(getPermission())
-        } else {
-            viewModel.getLocation()
         }
 
         viewModel.locations.observe(viewLifecycleOwner) {
@@ -100,6 +99,22 @@ class LocationListFragment : Fragment(), MenuProvider {
             it.data = Uri.fromParts("package", requireActivity().packageName, null)
             startActivity(it)
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.showSnackBar.observe(viewLifecycleOwner) {
+            Snackbar.make(requireView(), it, Snackbar.LENGTH_SHORT).show()
+        }
+
+        viewModel.showLoading.observe(viewLifecycleOwner) {
+            binding.viewLoading.loadingScreen.isVisible = it
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getLocation()
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {

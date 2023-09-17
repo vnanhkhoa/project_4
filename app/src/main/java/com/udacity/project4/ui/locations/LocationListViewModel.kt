@@ -5,7 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.udacity.project4.data.database.entites.Location
+import com.udacity.project4.data.repository.dto.Result
 import com.udacity.project4.domain.location.LocationUseCase
+import com.udacity.project4.utils.SingleLiveEvent
+import com.udacity.project4.utils.isSuccess
 import kotlinx.coroutines.launch
 
 class LocationListViewModel(
@@ -14,12 +17,25 @@ class LocationListViewModel(
 
     private val _locations = MutableLiveData<List<Location>>()
     val locations: LiveData<List<Location>> = _locations
+    val showSnackBar: SingleLiveEvent<String> = SingleLiveEvent()
+    val showLoading: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
     fun getLocation() {
         viewModelScope.launch {
-            locationUseCase.getLocations().collect {
+            showLoading.value = true
+            val result = locationUseCase.getLocations()
+
+            result.isSuccess {
                 _locations.value = it
             }
+
+            if (result is Result.Error) {
+                result.message?.let {
+                    showSnackBar.value = it
+                }
+            }
+
+            showLoading.value = false
         }
     }
 }

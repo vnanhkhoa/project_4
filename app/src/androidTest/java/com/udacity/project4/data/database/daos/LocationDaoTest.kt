@@ -8,7 +8,6 @@ import com.udacity.project4.data.database.AppDatabase
 import com.udacity.project4.data.database.entites.Location
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.CoreMatchers.`is`
@@ -82,7 +81,7 @@ class LocationDaoTest {
 
         @Test
         fun test() = runTest(UnconfinedTestDispatcher()) {
-            val actual = locationDao.getAll().first()
+            val actual = locationDao.getAll()
 
             assertThat(actual, notNullValue())
         }

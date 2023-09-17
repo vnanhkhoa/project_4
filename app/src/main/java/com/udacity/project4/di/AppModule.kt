@@ -31,10 +31,6 @@ val permissionModule = module {
             permissions += Manifest.permission.POST_NOTIFICATIONS
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            permissions += Manifest.permission.ACCESS_BACKGROUND_LOCATION
-        }
-
         return permissions
     }
     single(named(PERMISSION_NAME)) { handlePermission() }

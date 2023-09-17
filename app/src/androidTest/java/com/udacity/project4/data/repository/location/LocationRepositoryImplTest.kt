@@ -10,7 +10,6 @@ import com.udacity.project4.data.datasource.location.LocationDataSourceImpl
 import com.udacity.project4.data.repository.dto.Result
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.CoreMatchers
@@ -83,7 +82,8 @@ class LocationRepositoryImplTest {
 
         @Test
         fun test() = runTest(UnconfinedTestDispatcher()) {
-            val actual = locationRepository.getLocations().first()
+            val result = locationRepository.getLocations() as Result.Success
+            val actual = result.data
 
             MatcherAssert.assertThat(actual, CoreMatchers.notNullValue())
         }
