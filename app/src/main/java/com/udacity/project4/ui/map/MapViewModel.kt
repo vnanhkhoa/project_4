@@ -1,9 +1,6 @@
 package com.udacity.project4.ui.map
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.PointOfInterest
 import com.udacity.project4.ui.dto.LocationSelectDto
@@ -14,9 +11,6 @@ class MapViewModel : ViewModel() {
         private set
     private var marker: Marker? = null
     private var pointOfInterest: PointOfInterest? = null
-
-    private val _styleMap = MutableLiveData(GoogleMap.MAP_TYPE_NORMAL)
-    val styleMap: LiveData<Int> = _styleMap
 
     fun updateMarkerAndPointOfInterest(marker: Marker, pointOfInterest: PointOfInterest) {
         removeMarker()
@@ -40,11 +34,6 @@ class MapViewModel : ViewModel() {
     private fun removeMarker() {
         marker?.remove()
         marker = null
-    }
-
-    fun updateMapStyle(style: Int): Boolean {
-        if (style != -1) _styleMap.value = style
-        return style != -1
     }
 
 }

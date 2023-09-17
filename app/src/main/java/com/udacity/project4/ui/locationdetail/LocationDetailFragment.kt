@@ -31,7 +31,7 @@ class LocationDetailFragment : Fragment() {
         Intent(activity, LocationReceiver::class.java).run {
             action = Constants.ACTION_LOCATION_REMINDER
             PendingIntent.getBroadcast(
-                requireActivity(), 0, this, PendingIntent.FLAG_IMMUTABLE
+                requireActivity(), 0, this, PendingIntent.FLAG_MUTABLE
             )
         }
     }

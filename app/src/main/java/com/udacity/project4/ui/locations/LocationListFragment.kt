@@ -1,16 +1,12 @@
 package com.udacity.project4.ui.locations
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
@@ -23,8 +19,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.udacity.project4.R
 import com.udacity.project4.databinding.FragmentLocationListBinding
 import com.udacity.project4.ui.locations.adapter.LocationAdapter
-import com.udacity.project4.utils.PermissionUtil.checkPermission
-import com.udacity.project4.utils.PermissionUtil.getPermission
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LocationListFragment : Fragment(), MenuProvider {
@@ -42,18 +36,6 @@ class LocationListFragment : Fragment(), MenuProvider {
             }
     }
 
-    private val activityResultLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
-            for (key in it.keys) {
-                if (it[key] == false) {
-                    showSettingSystem()
-                    return@registerForActivityResult
-                }
-            }
-
-            viewModel.getLocation()
-        }
-
     private val menuHost: MenuHost by lazy {
         requireActivity()
     }
@@ -69,10 +51,6 @@ class LocationListFragment : Fragment(), MenuProvider {
         if (FirebaseAuth.getInstance().currentUser == null) return
 
         menuHost.addMenuProvider(this, viewLifecycleOwner)
-
-        if (!checkPermission()) {
-            activityResultLauncher.launch(getPermission())
-        }
 
         viewModel.locations.observe(viewLifecycleOwner) {
             binding.groupNoData.isVisible = it.isEmpty()
@@ -91,13 +69,6 @@ class LocationListFragment : Fragment(), MenuProvider {
             rvListLocation.adapter = locationAdapter
             rvListLocation.layoutManager = LinearLayoutManager(requireContext())
 
-        }
-    }
-
-    private fun showSettingSystem() {
-        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).also {
-            it.data = Uri.fromParts("package", requireActivity().packageName, null)
-            startActivity(it)
         }
     }
 

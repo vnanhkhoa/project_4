@@ -18,4 +18,8 @@ object PermissionUtil {
     fun Context.checkPermission(vararg permissions: String): Boolean = permissions.all {
         checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED
     }
+
+    fun Fragment.isPermission(vararg permissions: String): Boolean = permissions.all {
+        checkSelfPermission(requireActivity(), it) == PackageManager.PERMISSION_GRANTED
+    }
 }
