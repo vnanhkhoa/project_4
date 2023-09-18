@@ -19,7 +19,6 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.spy
 import org.mockito.kotlin.verify
-import org.mockito.kotlin.whenever
 
 @RunWith(Enclosed::class)
 @ExperimentalCoroutinesApi
@@ -53,7 +52,6 @@ class LocationDetailViewModelTest {
                 actual = expected
             }
 
-            locationDetailViewModel.setUpdate(true)
             locationDetailViewModel.setLocation(location)
             locationDetailViewModel.saveLocation(callBack)
 
@@ -69,9 +67,6 @@ class LocationDetailViewModelTest {
                 actual = expected
             }
 
-            whenever(locationUseCase.create(any())).thenReturn(1)
-
-            locationDetailViewModel.setUpdate(false)
             locationDetailViewModel.saveLocation(callBack)
 
             verify(locationUseCase).create(any())

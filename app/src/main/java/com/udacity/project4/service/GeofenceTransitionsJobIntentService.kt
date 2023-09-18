@@ -4,11 +4,13 @@ package com.udacity.project4.service
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.core.app.JobIntentService
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingEvent
 import com.udacity.project4.data.database.entites.Location
 import com.udacity.project4.domain.location.LocationUseCase
+import com.udacity.project4.utils.isError
 import com.udacity.project4.utils.isSuccess
 import com.udacity.project4.utils.sendNotification
 import kotlinx.coroutines.CoroutineScope
@@ -22,12 +24,13 @@ import kotlin.coroutines.CoroutineContext
 @Suppress("DEPRECATION")
 class GeofenceTransitionsJobIntentService : JobIntentService(), CoroutineScope {
 
-    private var coroutineJob: Job = Job()
+    private var coroutineJob: Job = SupervisorJob()
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.IO + coroutineJob
 
     companion object {
         private const val JOB_ID = 573
+        private const val TAG = "GeofenceTransitionsJobIntentService"
 
         fun enqueueWork(context: Context, intent: Intent) {
             enqueueWork(
@@ -49,7 +52,7 @@ class GeofenceTransitionsJobIntentService : JobIntentService(), CoroutineScope {
         triggeringGeofences?.forEach {
             val requestId = it.requestId
             val locationDataSource: LocationUseCase by inject()
-            CoroutineScope(coroutineContext).launch(SupervisorJob()) {
+            CoroutineScope(coroutineContext).launch {
                 val result = locationDataSource.getLocation(requestId.toInt())
                 result.isSuccess { location ->
                     sendNotification(
@@ -64,6 +67,9 @@ class GeofenceTransitionsJobIntentService : JobIntentService(), CoroutineScope {
                     )
                 }
 
+                result.isError { message ->
+                    Log.w(TAG, "Error: $message")
+                }
             }
         }
     }

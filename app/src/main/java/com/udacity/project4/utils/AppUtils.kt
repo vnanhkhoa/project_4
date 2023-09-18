@@ -17,6 +17,12 @@ fun <T : Any> Result<T>.isSuccess(callback: (t: T) -> Unit) {
     }
 }
 
+fun <T : Any> Result<T>.isError(callback: (s: String?) -> Unit) {
+    if (this is Result.Error) {
+        callback.invoke(message)
+    }
+}
+
 private const val NOTIFICATION_CHANNEL_ID = BuildConfig.APPLICATION_ID + ".channel"
 
 fun sendNotification(context: Context, location: Location) {

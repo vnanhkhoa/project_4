@@ -11,23 +11,33 @@ class LocationRepositoryImpl(
     private val locationDataSource: LocationDataSource,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : LocationRepository {
+
+    companion object {
+        private const val ERROR_MESSAGE = "Location not found"
+    }
+
     override suspend fun add(location: Location) = withContext(dispatcher) {
         locationDataSource.create(location = location)
     }
 
     override suspend fun getLocations(): Result<List<Location>> = withContext(dispatcher) {
         return@withContext try {
-            Result.Success(locationDataSource.getLocations())
+            val locations = locationDataSource.getLocations()
+            if (locations.isEmpty()) {
+                return@withContext Result.Error(ERROR_MESSAGE)
+            }
+            Result.Success(locations)
         } catch (ex: Exception) {
-            Result.Error(ex.localizedMessage)
+            Result.Error(ERROR_MESSAGE)
         }
     }
 
     override suspend fun getLocation(id: Int): Result<Location> = withContext(dispatcher) {
         return@withContext try {
-            Result.Success(locationDataSource.getLocation(id = id))
+            val location = locationDataSource.getLocation(id = id)
+            Result.Success(location)
         } catch (ex: Exception) {
-            Result.Error(ex.localizedMessage)
+            Result.Error(ERROR_MESSAGE)
         }
     }
 

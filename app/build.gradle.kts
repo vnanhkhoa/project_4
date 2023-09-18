@@ -34,6 +34,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+
     }
     kotlinOptions {
         jvmTarget = "17"
@@ -45,15 +46,14 @@ android {
         buildConfig = true
     }
 
-    testOptions.unitTests {
-        isReturnDefaultValues = true
-    }
 }
 
 dependencies {
 
     implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("androidx.test.ext:junit-ktx:1.1.5")
+    implementation("androidx.test:runner:1.5.2")
 
     val roomVersion = "2.5.2"
     implementation("androidx.room:room-runtime:$roomVersion")
@@ -96,12 +96,14 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("org.mockito:mockito-android:5.5.0")
     testImplementation("junit:junit:4.13.2")
-    testImplementation("org.mockito:mockito-inline:5.5.0")
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0")
     testImplementation("androidx.room:room-testing:$roomVersion")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion")
     testImplementation("android.arch.core:core-testing:1.1.1")
+    testImplementation("androidx.test:core-ktx:1.5.0")
+    testImplementation("androidx.test.ext:junit-ktx:1.1.5")
+    testImplementation("androidx.test:rules:1.5.0")
     debugImplementation("androidx.fragment:fragment-testing:1.6.1")
     androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")

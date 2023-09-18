@@ -12,6 +12,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert
 import org.junit.After
 import org.junit.AfterClass
@@ -62,7 +63,7 @@ class LocationRepositoryImplTest {
         }
     }
 
-    class GetAllTest {
+    class GetAllTestWithResultSuccess {
 
         @Before
         fun setUp() = runTest {
@@ -87,7 +88,17 @@ class LocationRepositoryImplTest {
         }
     }
 
-    class GetLocationTest {
+    class GetAllTestWithResultError {
+        @Test
+        fun test() = runTest(UnconfinedTestDispatcher()) {
+            val result = locationRepository.getLocations() as Result.Error
+            val actual = result.message
+
+            MatcherAssert.assertThat(actual, `is`("Location not found"))
+        }
+    }
+
+    class GetLocationTestResultSuccess {
         @Before
         fun setUp() = runTest {
             locationDao.insert(location)
@@ -104,12 +115,22 @@ class LocationRepositoryImplTest {
             val result = locationRepository.getLocation(location.id) as Result.Success
             val actual = result.data
 
-            MatcherAssert.assertThat(actual.id, CoreMatchers.`is`(location.id))
-            MatcherAssert.assertThat(actual.title, CoreMatchers.`is`(location.title))
-            MatcherAssert.assertThat(actual.description, CoreMatchers.`is`(location.description))
-            MatcherAssert.assertThat(actual.locationName, CoreMatchers.`is`(location.locationName))
-            MatcherAssert.assertThat(actual.longitude, CoreMatchers.`is`(location.longitude))
-            MatcherAssert.assertThat(actual.latitude, CoreMatchers.`is`(location.latitude))
+            MatcherAssert.assertThat(actual.id, `is`(location.id))
+            MatcherAssert.assertThat(actual.title, `is`(location.title))
+            MatcherAssert.assertThat(actual.description, `is`(location.description))
+            MatcherAssert.assertThat(actual.locationName, `is`(location.locationName))
+            MatcherAssert.assertThat(actual.longitude, `is`(location.longitude))
+            MatcherAssert.assertThat(actual.latitude, `is`(location.latitude))
+        }
+    }
+
+    class GetLocationTWithResultError {
+        @Test
+        fun test() = runTest(UnconfinedTestDispatcher()) {
+            val result = locationRepository.getLocation(location.id) as Result.Error
+            val actual = result.message
+
+            MatcherAssert.assertThat(actual, `is`("Location not found"))
         }
     }
 
@@ -131,7 +152,7 @@ class LocationRepositoryImplTest {
 
             val actual = locationDao.getLocation(location.id)
 
-            MatcherAssert.assertThat(actual.title, CoreMatchers.`is`(expected))
+            MatcherAssert.assertThat(actual.title, `is`(expected))
         }
     }
 

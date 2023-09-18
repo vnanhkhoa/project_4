@@ -27,7 +27,6 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
-import org.koin.test.get
 import org.mockito.Mockito
 
 @ExperimentalCoroutinesApi
@@ -56,8 +55,6 @@ class LocationListFragmentTest : KoinTest {
             androidContext(ApplicationProvider.getApplicationContext())
             modules(appModule)
         }
-
-        locationDao = get()
     }
 
     @After
@@ -65,10 +62,12 @@ class LocationListFragmentTest : KoinTest {
         stopKoin()
     }
 
+    // Test for display snack bar
     @Test
     fun test_display_no_data() {
         launchFragmentInContainer<LocationListFragment>(bundleOf(), R.style.LoacationRemindersTheme)
         onView(withText("No Data")).check(matches(isDisplayed()))
+        onView(withText("Location not found")).check(matches(isDisplayed()))
     }
 
     @Test

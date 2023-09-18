@@ -4,31 +4,29 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.udacity.project4.data.database.entites.Location
-import com.udacity.project4.domain.location.LocationUseCase
+import com.udacity.project4.data.repository.location.LocationRepository
+import com.udacity.project4.domain.location.LocationUseCaseImpl
+import com.udacity.project4.ui.FakeDataSource
 import com.udacity.project4.utils.MainCoroutineRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.CoreMatchers.notNullValue
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.junit.MockitoJUnitRunner
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.verify
-import org.mockito.kotlin.whenever
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
-
 @ExperimentalCoroutinesApi
-@RunWith(MockitoJUnitRunner::class)
 class LocationListViewModelTest {
 
-    private val locationUseCase = mock<LocationUseCase>()
-    private val locationListViewModel = LocationListViewModel(locationUseCase)
+    private lateinit var locationRepository: LocationRepository
+    private lateinit var locationListViewModel: LocationListViewModel
+
     private val location = Location(
         id = 15,
         title = "Test",
@@ -38,56 +36,64 @@ class LocationListViewModelTest {
         latitude = 3.4
     )
 
-    @JvmField
-    @Rule
+    @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
     @ExperimentalCoroutinesApi
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
+    @Before
+    fun setUp() {
+        locationRepository = FakeDataSource()
+        (locationRepository as FakeDataSource).deleteAll()
+        locationListViewModel = LocationListViewModel(LocationUseCaseImpl(locationRepository))
+    }
+
+    @After
+    fun teaDown() {
+        (locationRepository as FakeDataSource).deleteAll()
+        (locationRepository as FakeDataSource).setError(false)
+    }
+
     @Test
-    fun test() = runTest(mainCoroutineRule.testDispatcher) {
-        whenever(locationUseCase.getLocations()).thenReturn(
-            flowOf(
-                listOf(
-                    location, location.copy(id = 11), location.copy(id = 12)
-                )
-            )
-        )
-
+    fun test_has_data() = runTest(mainCoroutineRule.testDispatcher) {
+        locationRepository.add(location)
         locationListViewModel.getLocation()
-        verify(locationUseCase).getLocations()
-
         val actual = locationListViewModel.locations.getOrAwaitValue()
-        assertThat(actual.size, `is`(3))
+        assertThat(actual, notNullValue())
     }
 
-    private fun <T> LiveData<T>.getOrAwaitValue(
-        time: Long = 2,
-        timeUnit: TimeUnit = TimeUnit.SECONDS,
-        afterObserve: () -> Unit = {}
-    ): T {
-        var data: T? = null
-        val latch = CountDownLatch(1)
-        val observer = object : Observer<T> {
-            override fun onChanged(value: T) {
-                data = value
-                latch.countDown()
-                this@getOrAwaitValue.removeObserver(this)
-            }
-        }
-        this.observeForever(observer)
-
-        afterObserve.invoke()
-
-        // Don't wait indefinitely if the LiveData is not set.
-        if (!latch.await(time, timeUnit)) {
-            this.removeObserver(observer)
-            throw TimeoutException("LiveData value was never set.")
-        }
-
-        @Suppress("UNCHECKED_CAST")
-        return data as T
+    @Test
+    fun test_no_data() = runTest(mainCoroutineRule.testDispatcher) {
+        (locationRepository as FakeDataSource).setError(true)
+        locationListViewModel.getLocation()
+        val actual = locationListViewModel.showSnackBar.getOrAwaitValue()
+        assertThat(actual, `is`("Location not found"))
     }
+}
+
+fun <T> LiveData<T>.getOrAwaitValue(
+    time: Long = 2, timeUnit: TimeUnit = TimeUnit.SECONDS, afterObserve: () -> Unit = {}
+): T {
+    var data: T? = null
+    val latch = CountDownLatch(1)
+    val observer = object : Observer<T> {
+        override fun onChanged(value: T) {
+            data = value
+            latch.countDown()
+            this@getOrAwaitValue.removeObserver(this)
+        }
+    }
+    this.observeForever(observer)
+
+    afterObserve.invoke()
+
+    // Don't wait indefinitely if the LiveData is not set.
+    if (!latch.await(time, timeUnit)) {
+        this.removeObserver(observer)
+        throw TimeoutException("LiveData value was never set.")
+    }
+
+    @Suppress("UNCHECKED_CAST") return data as T
 }
