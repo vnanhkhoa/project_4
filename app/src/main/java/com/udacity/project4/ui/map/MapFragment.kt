@@ -31,11 +31,11 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PointOfInterest
 import com.google.android.material.snackbar.Snackbar
 import com.udacity.project4.R
-import com.udacity.project4.R.*
 import com.udacity.project4.databinding.FragmentMapBinding
 import com.udacity.project4.ui.locationdetail.LocationDetailFragment
 import com.udacity.project4.utils.PermissionUtil.checkPermission
@@ -85,6 +85,12 @@ class MapFragment : Fragment(), MenuProvider {
         (childFragmentManager.findFragmentById(R.id.map_fragment) as? SupportMapFragment)?.run {
             getMapAsync {
                 googleMap = it
+                googleMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                        requireContext(),
+                        R.raw.map_style
+                    )
+                )
                 setMapEvents()
                 updateLocation()
             }
