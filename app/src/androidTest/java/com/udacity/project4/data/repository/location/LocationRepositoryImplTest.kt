@@ -31,7 +31,7 @@ class LocationRepositoryImplTest {
         val locationDao = db.getLocationDao()
         val locationRepository = LocationRepositoryImpl(LocationDataSourceImpl(locationDao))
         val location = Location(
-            id = 15,
+            id = "15",
             title = "Test",
             description = "description",
             locationName = "locationName",
@@ -68,15 +68,15 @@ class LocationRepositoryImplTest {
         @Before
         fun setUp() = runTest {
             locationDao.insert(location)
-            locationDao.insert(location.copy(id = 16))
-            locationDao.insert(location.copy(id = 17))
+            locationDao.insert(location.copy(id = "16"))
+            locationDao.insert(location.copy(id = "17"))
         }
 
         @After
         fun teaDown() = runTest {
             locationDao.delete(location)
-            locationDao.delete(location.copy(id = 16))
-            locationDao.delete(location.copy(id = 17))
+            locationDao.delete(location.copy(id = "16"))
+            locationDao.delete(location.copy(id = "17"))
         }
 
         @Test
@@ -94,7 +94,7 @@ class LocationRepositoryImplTest {
             val result = locationRepository.getLocations() as Result.Error
             val actual = result.message
 
-            MatcherAssert.assertThat(actual, `is`("Location not found"))
+            MatcherAssert.assertThat(actual, `is`("Locations empty"))
         }
     }
 
@@ -152,7 +152,7 @@ class LocationRepositoryImplTest {
 
             val actual = locationDao.getLocation(location.id)
 
-            MatcherAssert.assertThat(actual.title, `is`(expected))
+            MatcherAssert.assertThat(actual?.title, `is`(expected))
         }
     }
 

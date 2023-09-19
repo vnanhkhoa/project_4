@@ -29,7 +29,7 @@ class LocationDaoTest {
         val db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).build()
         val locationDao = db.getLocationDao()
         val location = Location(
-            id = 15,
+            id = "15",
             title = "Test",
             description = "description",
             locationName = "locationName",
@@ -66,15 +66,15 @@ class LocationDaoTest {
         @Before
         fun setUp() = runTest {
             locationDao.insert(location)
-            locationDao.insert(location.copy(id = 16))
-            locationDao.insert(location.copy(id = 17))
+            locationDao.insert(location.copy(id = "16"))
+            locationDao.insert(location.copy(id = "17"))
         }
 
         @After
         fun teaDown() = runTest {
             locationDao.delete(location)
-            locationDao.delete(location.copy(id = 16))
-            locationDao.delete(location.copy(id = 17))
+            locationDao.delete(location.copy(id = "16"))
+            locationDao.delete(location.copy(id = "17"))
         }
 
         @Test
@@ -99,7 +99,7 @@ class LocationDaoTest {
         @Test
         fun test() = runTest(UnconfinedTestDispatcher()) {
 
-            val actual = locationDao.getLocation(location.id)
+            val actual = locationDao.getLocation(location.id)!!
 
             assertThat(actual.id, `is`(location.id))
             assertThat(actual.title, `is`(location.title))
@@ -128,7 +128,7 @@ class LocationDaoTest {
 
             val actual = locationDao.getLocation(location.id)
 
-            assertThat(actual.title, `is`(expected))
+            assertThat(actual?.title, `is`(expected))
         }
     }
 

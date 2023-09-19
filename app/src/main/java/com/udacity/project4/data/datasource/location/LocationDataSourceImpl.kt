@@ -11,7 +11,7 @@ class LocationDataSourceImpl(
 
     override suspend fun getLocations(): List<Location> = locationDao.getAll()
 
-    override suspend fun getLocation(id: Int): Location = locationDao.getLocation(id)
+    override suspend fun getLocation(id: String): Location? = locationDao.getLocation(id)
 
     override suspend fun update(location: Location) {
         locationDao.update(location)

@@ -7,7 +7,7 @@ interface LocationRepository {
     suspend fun add(location: Location)
 
     suspend fun getLocations(): Result<List<Location>>
-    suspend fun getLocation(id: Int): Result<Location>
+    suspend fun getLocation(id: String): Result<Location>
 
     suspend fun update(location: Location)
 

@@ -28,7 +28,7 @@ class LocationDataSourceImplTest {
         val locationDao = db.getLocationDao()
         val locationDataSource = LocationDataSourceImpl(locationDao)
         val location = Location(
-            id = 15,
+            id = "15",
             title = "Test",
             description = "description",
             locationName = "locationName",
@@ -65,15 +65,15 @@ class LocationDataSourceImplTest {
         @Before
         fun setUp() = runTest {
             locationDao.insert(location)
-            locationDao.insert(location.copy(id = 16))
-            locationDao.insert(location.copy(id = 17))
+            locationDao.insert(location.copy(id = "16"))
+            locationDao.insert(location.copy(id = "17"))
         }
 
         @After
         fun teaDown() = runTest {
             locationDao.delete(location)
-            locationDao.delete(location.copy(id = 16))
-            locationDao.delete(location.copy(id = 17))
+            locationDao.delete(location.copy(id = "16"))
+            locationDao.delete(location.copy(id = "17"))
         }
 
         @Test
@@ -98,7 +98,7 @@ class LocationDataSourceImplTest {
         @Test
         fun test() = runTest(UnconfinedTestDispatcher()) {
 
-            val actual = locationDataSource.getLocation(location.id)
+            val actual = locationDataSource.getLocation(location.id)!!
 
             MatcherAssert.assertThat(actual.id, CoreMatchers.`is`(location.id))
             MatcherAssert.assertThat(actual.title, CoreMatchers.`is`(location.title))
@@ -127,7 +127,7 @@ class LocationDataSourceImplTest {
 
             val actual = locationDao.getLocation(location.id)
 
-            MatcherAssert.assertThat(actual.title, CoreMatchers.`is`(expected))
+            MatcherAssert.assertThat(actual?.title, CoreMatchers.`is`(expected))
         }
     }
 

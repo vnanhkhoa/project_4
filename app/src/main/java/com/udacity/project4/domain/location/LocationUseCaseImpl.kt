@@ -8,7 +8,8 @@ class LocationUseCaseImpl(private val locationRepository: LocationRepository) : 
     override suspend fun create(location: Location) = locationRepository.add(location)
 
     override suspend fun getLocations(): Result<List<Location>> = locationRepository.getLocations()
-    override suspend fun getLocation(id: Int): Result<Location> = locationRepository.getLocation(id)
+    override suspend fun getLocation(id: String): Result<Location> =
+        locationRepository.getLocation(id)
 
     override suspend fun update(location: Location) {
         locationRepository.update(location)

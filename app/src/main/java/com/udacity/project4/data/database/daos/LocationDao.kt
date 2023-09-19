@@ -18,7 +18,7 @@ interface LocationDao {
     suspend fun getAll(): List<Location>
 
     @Query("Select * from `location` where `id` = :id")
-    suspend fun getLocation(id: Int): Location
+    suspend fun getLocation(id: String): Location?
 
     @Update
     suspend fun update(location: Location)

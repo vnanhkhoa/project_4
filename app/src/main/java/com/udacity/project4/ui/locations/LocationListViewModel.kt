@@ -18,6 +18,7 @@ class LocationListViewModel(
     private val _locations = MutableLiveData<List<Location>>()
     val locations: LiveData<List<Location>> = _locations
     val showSnackBar: SingleLiveEvent<String> = SingleLiveEvent()
+    val showToast: SingleLiveEvent<String> = SingleLiveEvent()
     val showLoading: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
     var isInit = false
@@ -27,12 +28,13 @@ class LocationListViewModel(
             isInit = false
             return
         }
+        showLoading.value = true
         viewModelScope.launch {
-            showLoading.value = true
             val result = locationUseCase.getLocations()
 
             result.isSuccess {
                 _locations.value = it
+                showToast.value = "Get location success"
             }
 
             if (result is Result.Error) {

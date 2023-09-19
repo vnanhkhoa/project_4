@@ -9,7 +9,6 @@ import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingEvent
 import com.udacity.project4.data.database.entites.Location
 import com.udacity.project4.domain.location.LocationUseCase
-import com.udacity.project4.utils.isError
 import com.udacity.project4.utils.isSuccess
 import com.udacity.project4.utils.sendNotification
 import kotlinx.coroutines.CoroutineScope
@@ -52,7 +51,7 @@ class GeofenceTransitionsJobIntentService : JobIntentService(), CoroutineScope {
             val requestId = it.requestId
             val locationDataSource: LocationUseCase by inject()
             CoroutineScope(coroutineContext).launch {
-                val result = locationDataSource.getLocation(requestId.toInt())
+                val result = locationDataSource.getLocation(requestId)
                 result.isSuccess { location ->
                     sendNotification(
                         this@GeofenceTransitionsJobIntentService, Location(
@@ -62,19 +61,6 @@ class GeofenceTransitionsJobIntentService : JobIntentService(), CoroutineScope {
                             latitude = location.latitude,
                             longitude = location.longitude,
                             id = location.id
-                        )
-                    )
-                }
-
-                result.isError { _ ->
-                    sendNotification(
-                        this@GeofenceTransitionsJobIntentService, Location(
-                            title = "",
-                            description = "",
-                            locationName = "",
-                            latitude = it.latitude,
-                            longitude = it.longitude,
-                            id = requestId.toInt()
                         )
                     )
                 }

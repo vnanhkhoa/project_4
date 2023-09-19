@@ -32,7 +32,7 @@ class LocationUseCaseImplTest {
         val locationUseCase =
             LocationUseCaseImpl(LocationRepositoryImpl(LocationDataSourceImpl(locationDao)))
         val location = Location(
-            id = 15,
+            id = "15",
             title = "Test",
             description = "description",
             locationName = "locationName",
@@ -69,15 +69,15 @@ class LocationUseCaseImplTest {
         @Before
         fun setUp() = runTest {
             locationDao.insert(location)
-            locationDao.insert(location.copy(id = 16))
-            locationDao.insert(location.copy(id = 17))
+            locationDao.insert(location.copy(id = "16"))
+            locationDao.insert(location.copy(id = "17"))
         }
 
         @After
         fun teaDown() = runTest {
             locationDao.delete(location)
-            locationDao.delete(location.copy(id = 16))
-            locationDao.delete(location.copy(id = 17))
+            locationDao.delete(location.copy(id = "16"))
+            locationDao.delete(location.copy(id = "17"))
         }
 
         @Test
@@ -133,7 +133,7 @@ class LocationUseCaseImplTest {
 
             val actual = locationDao.getLocation(location.id)
 
-            MatcherAssert.assertThat(actual.title, CoreMatchers.`is`(expected))
+            MatcherAssert.assertThat(actual?.title, CoreMatchers.`is`(expected))
         }
     }
 

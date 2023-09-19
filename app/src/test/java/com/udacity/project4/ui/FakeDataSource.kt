@@ -20,19 +20,31 @@ class FakeDataSource : LocationRepository {
         return if (isError) {
             Result.Error("Location not found")
         } else {
-            Result.Success(locations)
+            try {
+                if (locations.isEmpty()) {
+                    Result.Error("Empty")
+                } else {
+                    Result.Success(locations)
+                }
+            } catch (e: Exception) {
+                Result.Error("GetLocations Error")
+            }
         }
     }
 
-    override suspend fun getLocation(id: Int): Result<Location> {
+    override suspend fun getLocation(id: String): Result<Location> {
         return if (isError) {
-            Result.Error("Location not found")
+            Result.Error("GetLocation Error")
         } else {
-            val location = locations.find { it.id == id }
-            if (location == null) {
-                Result.Error("Location not found")
-            } else {
-                Result.Success(location)
+            try {
+                val location = locations.find { it.id == id }
+                if (location == null) {
+                    Result.Error("Location not found")
+                } else {
+                    Result.Success(location)
+                }
+            } catch (e: Exception) {
+                Result.Error("GetLocation Error")
             }
         }
     }
