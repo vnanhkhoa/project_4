@@ -4,7 +4,6 @@ package com.udacity.project4.service
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.core.app.JobIntentService
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingEvent
@@ -67,8 +66,17 @@ class GeofenceTransitionsJobIntentService : JobIntentService(), CoroutineScope {
                     )
                 }
 
-                result.isError { message ->
-                    Log.w(TAG, "Error: $message")
+                result.isError { _ ->
+                    sendNotification(
+                        this@GeofenceTransitionsJobIntentService, Location(
+                            title = "",
+                            description = "",
+                            locationName = "",
+                            latitude = it.latitude,
+                            longitude = it.longitude,
+                            id = requestId.toInt()
+                        )
+                    )
                 }
             }
         }

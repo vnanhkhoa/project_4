@@ -4,7 +4,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.udacity.project4.data.database.entites.Location
-import com.udacity.project4.data.repository.location.LocationRepository
 import com.udacity.project4.domain.location.LocationUseCaseImpl
 import com.udacity.project4.ui.FakeDataSource
 import com.udacity.project4.utils.MainCoroutineRule
@@ -24,7 +23,7 @@ import java.util.concurrent.TimeoutException
 @ExperimentalCoroutinesApi
 class LocationListViewModelTest {
 
-    private lateinit var locationRepository: LocationRepository
+    private lateinit var locationRepository: FakeDataSource
     private lateinit var locationListViewModel: LocationListViewModel
 
     private val location = Location(
@@ -46,27 +45,28 @@ class LocationListViewModelTest {
     @Before
     fun setUp() {
         locationRepository = FakeDataSource()
-        (locationRepository as FakeDataSource).deleteAll()
+        locationRepository.deleteAll()
         locationListViewModel = LocationListViewModel(LocationUseCaseImpl(locationRepository))
     }
 
     @After
     fun teaDown() {
-        (locationRepository as FakeDataSource).deleteAll()
-        (locationRepository as FakeDataSource).setError(false)
+        locationRepository.deleteAll()
+        locationRepository.setError(false)
     }
 
     @Test
     fun test_has_data() = runTest(mainCoroutineRule.testDispatcher) {
         locationRepository.add(location)
         locationListViewModel.getLocation()
+        assertThat(locationListViewModel.showLoading.getOrAwaitValue(), `is`(false))
         val actual = locationListViewModel.locations.getOrAwaitValue()
         assertThat(actual, notNullValue())
     }
 
     @Test
     fun test_no_data() = runTest(mainCoroutineRule.testDispatcher) {
-        (locationRepository as FakeDataSource).setError(true)
+        locationRepository.setError(true)
         locationListViewModel.getLocation()
         val actual = locationListViewModel.showSnackBar.getOrAwaitValue()
         assertThat(actual, `is`("Location not found"))

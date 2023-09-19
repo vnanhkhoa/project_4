@@ -21,15 +21,11 @@ class LocationRepositoryImpl(
     }
 
     override suspend fun getLocations(): Result<List<Location>> = withContext(dispatcher) {
-        return@withContext try {
-            val locations = locationDataSource.getLocations()
-            if (locations.isEmpty()) {
-                return@withContext Result.Error(ERROR_MESSAGE)
-            }
-            Result.Success(locations)
-        } catch (ex: Exception) {
-            Result.Error(ERROR_MESSAGE)
+        val locations = locationDataSource.getLocations()
+        if (locations.isEmpty()) {
+            return@withContext Result.Error(ERROR_MESSAGE)
         }
+        Result.Success(locations)
     }
 
     override suspend fun getLocation(id: Int): Result<Location> = withContext(dispatcher) {
