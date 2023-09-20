@@ -9,7 +9,5 @@ interface LocationRepository {
     suspend fun getLocations(): Result<List<Location>>
     suspend fun getLocation(id: String): Result<Location>
 
-    suspend fun update(location: Location)
-
     suspend fun delete(location: Location)
 }

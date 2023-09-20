@@ -10,7 +10,5 @@ interface LocationDataSource {
 
     suspend fun getLocation(id: String): Location?
 
-    suspend fun update(location: Location)
-
     suspend fun delete(location: Location)
 }

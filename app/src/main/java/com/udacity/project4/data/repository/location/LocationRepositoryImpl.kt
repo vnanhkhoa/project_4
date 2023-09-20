@@ -46,10 +46,6 @@ class LocationRepositoryImpl(
         }
     }
 
-    override suspend fun update(location: Location) = withContext(dispatcher) {
-        locationDataSource.update(location = location)
-    }
-
     override suspend fun delete(location: Location) = withContext(dispatcher) {
         locationDataSource.delete(location = location)
     }

@@ -17,40 +17,35 @@ class FakeDataSource : LocationRepository {
     }
 
     override suspend fun getLocations(): Result<List<Location>> {
-        return if (isError) {
-            Result.Error("Location not found")
-        } else {
-            try {
-                if (locations.isEmpty()) {
-                    Result.Error("Empty")
-                } else {
-                    Result.Success(locations)
-                }
-            } catch (e: Exception) {
-                Result.Error("GetLocations Error")
+        return try {
+            if (isError) {
+                throw Exception("Location not found")
             }
+
+            if (locations.isEmpty()) {
+                Result.Error("Empty")
+            } else {
+                Result.Success(locations)
+            }
+        } catch (e: Exception) {
+            Result.Error(e.localizedMessage)
         }
     }
 
     override suspend fun getLocation(id: String): Result<Location> {
-        return if (isError) {
-            Result.Error("GetLocation Error")
-        } else {
-            try {
-                val location = locations.find { it.id == id }
-                if (location == null) {
-                    Result.Error("Location not found")
-                } else {
-                    Result.Success(location)
-                }
-            } catch (e: Exception) {
-                Result.Error("GetLocation Error")
+        return try {
+            if (isError) {
+                throw Exception("GetLocation Error")
             }
+            val location = locations.find { it.id == id }
+            if (location == null) {
+                Result.Error("Location not found")
+            } else {
+                Result.Success(location)
+            }
+        } catch (e: Exception) {
+            Result.Error(e.localizedMessage)
         }
-    }
-
-    override suspend fun update(location: Location) {
-        // Don't something
     }
 
     override suspend fun delete(location: Location) {

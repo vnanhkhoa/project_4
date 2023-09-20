@@ -73,11 +73,18 @@ class LocationListViewModelTest {
     }
 
     @Test
-    fun test_no_data() = runTest(mainCoroutineRule.testDispatcher) {
+    fun test_no_data_with_error() = runTest(mainCoroutineRule.testDispatcher) {
         locationRepository.setError(true)
         locationListViewModel.getLocation()
         val actual = locationListViewModel.showSnackBar.getOrAwaitValue()
         assertThat(actual, `is`("Location not found"))
+    }
+
+    @Test
+    fun test_no_data_with_data_empty() = runTest(mainCoroutineRule.testDispatcher) {
+        locationListViewModel.getLocation()
+        val actual = locationListViewModel.showSnackBar.getOrAwaitValue()
+        assertThat(actual, `is`("Empty"))
     }
 }
 

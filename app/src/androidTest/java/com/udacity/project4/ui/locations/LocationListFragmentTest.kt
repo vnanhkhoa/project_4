@@ -10,12 +10,13 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.assertThat
+import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
+import com.google.android.material.internal.ContextUtils.getActivity
 import com.udacity.project4.R
 import com.udacity.project4.data.database.daos.LocationDao
 import com.udacity.project4.data.database.entites.Location
@@ -23,6 +24,7 @@ import com.udacity.project4.di.appModule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.Matchers.not
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -94,9 +96,17 @@ class LocationListFragmentTest : KoinTest {
 
         viewModel.getLocation()
 
+        onView(withText(location.title)).inRoot(
+            withDecorView(
+                not(
+                    `is`(
+                        getActivity(applicationContext)?.window?.decorView
+                    )
+                )
+            )
+        ).check(matches(isDisplayed()))
         onView(withText(location.title)).check(matches(isDisplayed()))
         onView(withText(location.locationName)).check(matches(isDisplayed()))
-        assertThat(viewModel.showToast.value, `is`("Get location success"))
     }
 
     @Test

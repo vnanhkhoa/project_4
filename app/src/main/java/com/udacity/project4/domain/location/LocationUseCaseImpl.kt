@@ -11,10 +11,6 @@ class LocationUseCaseImpl(private val locationRepository: LocationRepository) : 
     override suspend fun getLocation(id: String): Result<Location> =
         locationRepository.getLocation(id)
 
-    override suspend fun update(location: Location) {
-        locationRepository.update(location)
-    }
-
     override suspend fun delete(location: Location) {
         locationRepository.delete(location)
     }

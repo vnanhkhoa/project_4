@@ -13,10 +13,6 @@ class LocationDataSourceImpl(
 
     override suspend fun getLocation(id: String): Location? = locationDao.getLocation(id)
 
-    override suspend fun update(location: Location) {
-        locationDao.update(location)
-    }
-
     override suspend fun delete(location: Location) {
         locationDao.delete(location)
     }

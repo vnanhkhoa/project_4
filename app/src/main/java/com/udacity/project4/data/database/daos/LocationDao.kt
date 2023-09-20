@@ -5,7 +5,6 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
 import com.udacity.project4.data.database.entites.Location
 
 @Dao
@@ -19,9 +18,6 @@ interface LocationDao {
 
     @Query("Select * from `location` where `id` = :id")
     suspend fun getLocation(id: String): Location?
-
-    @Update
-    suspend fun update(location: Location)
 
     @Delete
     suspend fun delete(location: Location)
