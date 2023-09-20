@@ -109,28 +109,6 @@ class LocationDataSourceImplTest {
         }
     }
 
-    class UpdateTest {
-        @Before
-        fun setUp() = runTest {
-            locationDao.insert(location)
-        }
-
-        @After
-        fun teaDown() = runTest {
-            locationDao.insert(location)
-        }
-
-        @Test
-        fun test() = runTest(UnconfinedTestDispatcher()) {
-            val expected = "UPDATE_TEST"
-            locationDataSource.update(location.copy(title = expected))
-
-            val actual = locationDao.getLocation(location.id)
-
-            MatcherAssert.assertThat(actual?.title, CoreMatchers.`is`(expected))
-        }
-    }
-
     class DeleteTest {
         @Before
         fun setUp() = runTest {

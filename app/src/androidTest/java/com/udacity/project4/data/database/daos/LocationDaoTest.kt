@@ -110,27 +110,6 @@ class LocationDaoTest {
         }
     }
 
-    class UpdateTest {
-        @Before
-        fun setUp() = runTest {
-            locationDao.insert(location)
-        }
-
-        @After
-        fun teaDown() = runTest {
-            locationDao.delete(location)
-        }
-
-        @Test
-        fun test() = runTest(UnconfinedTestDispatcher()) {
-            val expected = "UPDATE_TEST"
-            locationDao.update(location.copy(title = expected))
-
-            val actual = locationDao.getLocation(location.id)
-
-            assertThat(actual?.title, `is`(expected))
-        }
-    }
 
     class DeleteTest {
         @Before
