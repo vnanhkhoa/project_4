@@ -77,7 +77,7 @@ class LocationListViewModelTest {
         locationRepository.setError(true)
         locationListViewModel.getLocation()
         val actual = locationListViewModel.showSnackBar.getOrAwaitValue()
-        assertThat(actual, `is`("Location not found"))
+        assertThat(actual, `is`("GetLocation List Error"))
     }
 
     @Test

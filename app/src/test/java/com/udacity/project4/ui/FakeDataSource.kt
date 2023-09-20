@@ -19,7 +19,7 @@ class FakeDataSource : LocationRepository {
     override suspend fun getLocations(): Result<List<Location>> {
         return try {
             if (isError) {
-                throw Exception("Location not found")
+                throw Exception("GetLocation List Error")
             }
 
             if (locations.isEmpty()) {

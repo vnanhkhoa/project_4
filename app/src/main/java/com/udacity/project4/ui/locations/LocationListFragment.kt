@@ -44,8 +44,6 @@ class LocationListFragment : Fragment(), MenuProvider {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getLocation()
-        viewModel.isInit = true
         viewModel.locations.observe(viewLifecycleOwner) {
             binding.groupNoData.isVisible = it.isEmpty()
             binding.rvListLocation.isVisible = it.isNotEmpty()
@@ -77,7 +75,7 @@ class LocationListFragment : Fragment(), MenuProvider {
         }
 
         viewModel.showToast.observe(viewLifecycleOwner) {
-            Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireActivity().applicationContext, it, Toast.LENGTH_SHORT).show()
         }
     }
 

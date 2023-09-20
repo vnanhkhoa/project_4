@@ -21,13 +21,8 @@ class LocationListViewModel(
     val showToast: SingleLiveEvent<String> = SingleLiveEvent()
     val showLoading: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
-    var isInit = false
 
     fun getLocation() {
-        if (isInit) {
-            isInit = false
-            return
-        }
         showLoading.value = true
         viewModelScope.launch {
             val result = locationUseCase.getLocations()

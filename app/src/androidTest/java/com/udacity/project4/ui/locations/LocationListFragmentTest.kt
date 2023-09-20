@@ -1,6 +1,8 @@
 package com.udacity.project4.ui.locations
 
 import android.content.Context
+import android.os.IBinder
+import android.view.WindowManager
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.core.os.bundleOf
 import androidx.fragment.app.testing.launchFragmentInContainer
@@ -8,23 +10,22 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Root
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
-import com.google.android.material.internal.ContextUtils.getActivity
 import com.udacity.project4.R
 import com.udacity.project4.data.database.daos.LocationDao
 import com.udacity.project4.data.database.entites.Location
 import com.udacity.project4.di.appModule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.Matchers.not
+import org.hamcrest.Description
+import org.hamcrest.TypeSafeMatcher
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -37,6 +38,7 @@ import org.koin.test.KoinTest
 import org.koin.test.get
 import org.mockito.Mockito
 import org.mockito.Mockito.after
+
 
 @ExperimentalCoroutinesApi
 @MediumTest
@@ -58,6 +60,7 @@ class LocationListFragmentTest : KoinTest {
         longitude = 3.2,
         latitude = 3.4
     )
+
 
     @Before
     fun setUp() {
@@ -89,24 +92,16 @@ class LocationListFragmentTest : KoinTest {
         runBlocking {
             locationDao.insert(location)
         }
+
         launchFragmentInContainer<LocationListFragment>(
-            bundleOf(),
-            R.style.LoacationRemindersTheme
+            bundleOf(), R.style.LoacationRemindersTheme
         )
 
-        viewModel.getLocation()
-
-        onView(withText(location.title)).inRoot(
-            withDecorView(
-                not(
-                    `is`(
-                        getActivity(applicationContext)?.window?.decorView
-                    )
-                )
-            )
-        ).check(matches(isDisplayed()))
+        onView(withText("Get location success")).inRoot(ToastMatcher())
+            .check(matches(isDisplayed()))
         onView(withText(location.title)).check(matches(isDisplayed()))
         onView(withText(location.locationName)).check(matches(isDisplayed()))
+
     }
 
     @Test
@@ -124,5 +119,23 @@ class LocationListFragmentTest : KoinTest {
         onView(withId(R.id.btn_add)).perform(click())
         Mockito.verify(mockNavController, after(1000))
             .navigate(LocationListFragmentDirections.actionLocationListFragmentToLocationDetailFragment())
+    }
+}
+
+class ToastMatcher : TypeSafeMatcher<Root>() {
+    override fun describeTo(description: Description) {
+        description.appendText("is toast")
+    }
+
+    override fun matchesSafely(item: Root): Boolean {
+        val type = item.windowLayoutParams.get().type
+        if (type == WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY) {
+            val windowToken: IBinder = item.decorView.windowToken
+            val appToken: IBinder = item.decorView.applicationWindowToken
+            if (windowToken == appToken) {
+                return true
+            }
+        }
+        return false
     }
 }
